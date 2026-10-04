@@ -30,6 +30,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $pass)) {
+    echo json_encode(["success" => false, "message" => "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character."]);
+    exit;
+}
+
 // Password hashing
 $hashedPass = password_hash($pass, PASSWORD_BCRYPT);
 

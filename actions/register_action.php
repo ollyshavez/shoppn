@@ -45,6 +45,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     redirect("../views/register.php");
 }
 
+if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $pass)) {
+    $msg = "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character.";
+    if ($isAjax) {
+        header("Content-Type: application/json");
+        echo json_encode(["success" => false, "message" => $msg]);
+        exit;
+    }
+    $_SESSION['error'] = $msg;
+    redirect("../views/register.php");
+}
+
 $controller = new CustomerController();
 $res = $controller->register([
     'name' => $name,

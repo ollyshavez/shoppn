@@ -16,6 +16,7 @@ function registerCustomer() {
 
 	var messageEl = document.getElementById("formMessage");
 	var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	var passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
 	if (!name || !email || !pass || !country || !city || !contact) {
 		if (messageEl) {
@@ -29,6 +30,14 @@ function registerCustomer() {
 		if (messageEl) {
 			messageEl.style.color = "red";
 			messageEl.textContent = "Please enter a valid email address.";
+		}
+		return;
+	}
+
+	if (!passPattern.test(pass)) {
+		if (messageEl) {
+			messageEl.style.color = "red";
+			messageEl.textContent = "Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character.";
 		}
 		return;
 	}

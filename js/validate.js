@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9+\-\s]{7,15}$/;
-    const passwordRegex = /^(?=.*\d).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
     function showError(elementId, message) {
         const errorElement = document.getElementById(elementId);
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const pass = document.getElementById('pass').value;
-            const confirmPass = document.getElementById('confirm_pass').value;
+            const confirmPass = document.getElementById('confirm_pass') ? document.getElementById('confirm_pass').value : pass;
             const country = document.getElementById('country').value.trim();
             const city = document.getElementById('city').value.trim();
             const contact = document.getElementById('contact').value.trim();
@@ -50,11 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (!passwordRegex.test(pass)) {
-                showError('pass-error', 'Password must be at least 8 characters long and contain at least one digit.');
+                showError('pass-error', 'Password must be at least 8 characters long and include uppercase, lowercase, numbers, and a special character.');
                 valid = false;
             }
 
-            if (pass !== confirmPass) {
+            if (confirmPass && pass !== confirmPass) {
                 showError('confirm-pass-error', 'Passwords do not match.');
                 valid = false;
             }
