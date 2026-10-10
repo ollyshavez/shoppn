@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . "/../core/core.php";
 $app_root = get_app_root();
+
+if (is_logged_in()) {
+    redirect($app_root . 'index.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
