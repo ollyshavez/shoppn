@@ -11,7 +11,9 @@ class ProductController
         $this->productModel = new ProductClass();
     }
 
+    // ==========================================
     // Brand Controller Methods
+    // ==========================================
     public function addBrand($name)
     {
         return $this->productModel->addBrand($name);
@@ -32,7 +34,9 @@ class ProductController
         return $this->productModel->updateBrand($id, $name);
     }
 
+    // ==========================================
     // Category Controller Methods
+    // ==========================================
     public function addCategory($name)
     {
         return $this->productModel->addCategory($name);
@@ -51,6 +55,49 @@ class ProductController
     public function updateCategory($id, $name)
     {
         return $this->productModel->updateCategory($id, $name);
+    }
+
+    // ==========================================
+    // Product Controller Methods (Tasks 9 & 10)
+    // ==========================================
+    public function addProduct($cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        return $this->productModel->addProduct($cat, $brand, $title, $price, $desc, $image_filename, $keywords);
+    }
+
+    public function updateProduct($id, $cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        return $this->productModel->updateProduct($id, $cat, $brand, $title, $price, $desc, $image_filename, $keywords);
+    }
+
+    public function getProductById($id)
+    {
+        return $this->productModel->getProductById($id);
+    }
+
+    public function getAllProducts()
+    {
+        return $this->productModel->getAllProducts();
+    }
+
+    public function getFeaturedProducts($limit = 6)
+    {
+        return $this->productModel->getFeaturedProducts($limit);
+    }
+
+    public function getProductsByCategory($cat_id)
+    {
+        return $this->productModel->getProductsByCategory($cat_id);
+    }
+
+    public function getProductsByBrand($brand_id)
+    {
+        return $this->productModel->getProductsByBrand($brand_id);
+    }
+
+    public function searchProducts($query)
+    {
+        return $this->productModel->searchProducts($query);
     }
 }
 

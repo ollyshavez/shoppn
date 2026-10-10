@@ -20,7 +20,7 @@ class ProductClass extends Database
     public function getAllBrands()
     {
         $sql = "SELECT * FROM brands ORDER BY brand_name ASC";
-        return $this->fetchAll($sql);
+        return $this->fetchAll($sql) ?: [];
     }
 
     // Get single brand by brand_id
@@ -52,7 +52,7 @@ class ProductClass extends Database
     public function getAllCategories()
     {
         $sql = "SELECT * FROM categories ORDER BY cat_name ASC";
-        return $this->fetchAll($sql);
+        return $this->fetchAll($sql) ?: [];
     }
 
     // Get single category by cat_id
@@ -67,6 +67,140 @@ class ProductClass extends Database
     {
         $sql = "UPDATE categories SET cat_name = ? WHERE cat_id = ?";
         return $this->execute($sql, [$name, $id]);
+    }
+
+    // ==========================================
+    // PRODUCT METHODS (Task 9: Add & Edit)
+    // ==========================================
+
+    // Insert a new product
+    public function addProduct($cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        $sql = "INSERT INTO products (
+            product_cat, 
+            product_brand, 
+            product_title, 
+            product_price, 
+            product_desc, 
+            product_image, 
+            product_keywords
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        return $this->execute($sql, [
+            $cat,
+            $brand,
+            $title,
+            $price,
+            $desc,
+            $image_filename,
+            $keywords
+        ]);
+    }
+
+    // Update an existing product
+    public function updateProduct($id, $cat, $brand, $title, $price, $desc, $image_filename, $keywords)
+    {
+        $sql = "UPDATE products SET 
+            product_cat = ?, 
+            product_brand = ?, 
+            product_title = ?, 
+            product_price = ?, 
+            product_desc = ?, 
+            product_image = ?, 
+            product_keywords = ? 
+            WHERE product_id = ?";
+
+        return $this->execute($sql, [
+            $cat,
+            $brand,
+            $title,
+            $price,
+            $desc,
+            $image_filename,
+            $keywords,
+            $id
+        ]);
+    }
+
+    // Get single product by ID joined with category and brand names
+    public function getProductById($id)
+    {
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                WHERE p.product_id = ?";
+
+        return $this->fetchOne($sql, [$id]);
+    }
+
+    // Get all products ordered newest first
+    public function getAllProducts()
+    {
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                ORDER BY p.product_id DESC";
+
+        return $this->fetchAll($sql) ?: [];
+    }
+
+    // ==========================================
+    // PRODUCT DISPLAY & SEARCH (Task 10)
+    // ==========================================
+
+    // Get featured/random products
+    public function getFeaturedProducts($limit = 6)
+    {
+        $limit = max(1, (int)$limit);
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                ORDER BY RAND() LIMIT $limit";
+
+        return $this->fetchAll($sql) ?: [];
+    }
+
+    // Filter products by category
+    public function getProductsByCategory($cat_id)
+    {
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                WHERE p.product_cat = ? 
+                ORDER BY p.product_id DESC";
+
+        return $this->fetchAll($sql, [$cat_id]) ?: [];
+    }
+
+    // Filter products by brand
+    public function getProductsByBrand($brand_id)
+    {
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                WHERE p.product_brand = ? 
+                ORDER BY p.product_id DESC";
+
+        return $this->fetchAll($sql, [$brand_id]) ?: [];
+    }
+
+    // Search products by title or keywords
+    public function searchProducts($query)
+    {
+        $term = '%' . trim($query) . '%';
+        $sql = "SELECT p.*, c.cat_name, b.brand_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.product_cat = c.cat_id 
+                LEFT JOIN brands b ON p.product_brand = b.brand_id 
+                WHERE p.product_title LIKE ? OR p.product_keywords LIKE ? 
+                ORDER BY p.product_id DESC";
+
+        return $this->fetchAll($sql, [$term, $term]) ?: [];
     }
 }
 
