@@ -58,8 +58,9 @@ if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPL
 
     $uploadDir = __DIR__ . '/../images/products/';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        mkdir($uploadDir, 0777, true);
     }
+    @chmod($uploadDir, 0777);
 
     $targetPath = $uploadDir . $new_filename;
     if (move_uploaded_file($fileTmp, $targetPath)) {

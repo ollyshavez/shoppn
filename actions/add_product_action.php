@@ -59,8 +59,9 @@ $image_filename = uniqid('prod_') . '_' . $cleanName;
 
 $uploadDir = __DIR__ . '/../images/products/';
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+    mkdir($uploadDir, 0777, true);
 }
+@chmod($uploadDir, 0777);
 
 $targetPath = $uploadDir . $image_filename;
 if (!move_uploaded_file($fileTmp, $targetPath)) {
