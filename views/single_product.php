@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../core/core.php';
-require_once __DIR__ . '/../../controllers/ProductController.php';
+require_once __DIR__ . '/../core/core.php';
+require_once __DIR__ . '/../controllers/ProductController.php';
 
 $app_root = get_app_root();
 

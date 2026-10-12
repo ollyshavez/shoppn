@@ -1,10 +1,5 @@
 <?php
-
-session_start();
-
-date_default_timezone_set('Africa/Accra');
-
-require_once __DIR__ . '/db_class.php';
+require_once __DIR__ . '/core/core.php';
 
 function get_ip()
 {
