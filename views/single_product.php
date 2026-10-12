@@ -69,9 +69,6 @@ require_once __DIR__ . '/layout/header.php';
             <?php endif; ?>
 
             <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #e2e8f0; display: flex; gap: 15px; align-items: center;">
-                <a href="<?= $app_root ?>views/cart.php" style="background: #16a34a; color: white; padding: 12px 30px; border-radius: 6px; font-size: 15px; font-weight: bold; text-decoration: none; display: inline-block;">
-                    Add to Cart
-                </a>
                 <a href="<?= $app_root ?>index.php" style="color: #64748b; text-decoration: none; font-size: 14px;">
                     Continue Browsing
                 </a>
