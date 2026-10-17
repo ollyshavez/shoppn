@@ -33,6 +33,18 @@ if ($active_cat > 0) {
             <span style="color: #64748b; font-size: 14px;"><?= count($products) ?> product(s) available</span>
         </div>
 
+        <?php if (isset($_SESSION['success'])): ?>
+            <div style="background: #dcfce7; color: #166534; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px; font-weight: bold; border-left: 4px solid #16a34a;">
+                <?= htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div style="background: #fee2e2; color: #991b1b; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px; font-weight: bold; border-left: 4px solid #dc2626;">
+                <?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($products)): ?>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
                 <?php foreach ($products as $p): ?>
@@ -66,8 +78,8 @@ if ($active_cat > 0) {
                                 <a href="<?= $app_root ?>views/single_product.php?pro_id=<?= htmlspecialchars($p['product_id']) ?>" style="flex: 1; text-align: center; background: #f1f5f9; color: #334155; padding: 7px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; text-decoration: none;">
                                     Details
                                 </a>
-                                <a href="<?= $app_root ?>views/single_product.php?pro_id=<?= htmlspecialchars($p['product_id']) ?>" style="flex: 1; text-align: center; background: #0284c7; color: white; padding: 7px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; text-decoration: none;">
-                                    View Product
+                                <a href="<?= $app_root ?>actions/add_to_cart_action.php?add_cart=<?= htmlspecialchars($p['product_id']) ?>" style="flex: 1; text-align: center; background: #0284c7; color: white; padding: 7px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; text-decoration: none;">
+                                    Add to Cart
                                 </a>
                             </div>
                         </div>

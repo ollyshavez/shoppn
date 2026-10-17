@@ -1,6 +1,13 @@
 <?php
 require_once __DIR__ . '/../../core/core.php';
+require_once __DIR__ . '/../../controllers/CartController.php';
+
 $app_root = get_app_root();
+
+$cartController = new CartController();
+$cart_ip = get_ip();
+$cart_count = $cartController->getCartCount($cart_ip);
+$cart_total = $cartController->getCartTotal($cart_ip);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +33,7 @@ $app_root = get_app_root();
             <ul class="nav-links">
                 <li><a href="<?= $app_root ?>index.php">Home</a></li>
                 <li><a href="<?= $app_root ?>views/all_products.php">All Products</a></li>
+                <li><a href="<?= $app_root ?>views/cart.php">Cart (<?= (int)$cart_count ?>)</a></li>
                 <li><a href="<?= $app_root ?>view/customers.php">Customers</a></li>
                 <?php if (is_logged_in()): ?>
                     <li class="nav-user">Welcome, <?= htmlspecialchars($_SESSION['customer_name'] ?? 'User') ?></li>
@@ -43,4 +51,16 @@ $app_root = get_app_root();
             </ul>
         </nav>
     </header>
+
+    <!-- Shopping Cart Summary Bar (Task 11) -->
+    <div class="cart-summary-bar" style="background: #0f172a; color: #e2e8f0; padding: 8px 24px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <div>
+            <span>Welcome to <strong>Shoppn</strong> &mdash; Your One-Stop Store</span>
+        </div>
+        <div>
+            <span>Shopping Cart &mdash; Total Items: <strong><?= (int)$cart_count ?></strong> | Total Price: <strong>GHS <?= number_format((float)$cart_total, 2) ?></strong> | </span>
+            <a href="<?= $app_root ?>views/cart.php" style="color: #38bdf8; font-weight: bold; text-decoration: none; margin-left: 4px;">Go to Cart &rarr;</a>
+        </div>
+    </div>
+
     <main class="container">
