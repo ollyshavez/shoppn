@@ -27,4 +27,8 @@ if ($is_local) {
     define('DB_NAME', 'ecommerce_2026A_kwizera_olivier');
 }
 
+// Paystack API Configuration
+define('PAYSTACK_PUBLIC_KEY', 'pk_test_e93c038576789a173c2978952009b81dd6aebb54');
+define('PAYSTACK_SECRET_KEY', 'sk_test_f46361063fd38bffc7ce7e8953923bfce3963e2b');
+
 ?>

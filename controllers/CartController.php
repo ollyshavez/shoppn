@@ -67,4 +67,12 @@ class CartController
     {
         return $this->cartModel->updateQty($product_id, $new_qty, $ip);
     }
+
+    /**
+     * Clear all cart items for a given IP
+     */
+    public function clearCart($ip)
+    {
+        return $this->cartModel->clearCart($ip);
+    }
 }

@@ -116,4 +116,16 @@ class CartClass extends Database
         $sql = "UPDATE cart SET qty = ? WHERE p_id = ? AND ip_add = ?";
         return $this->execute($sql, [$new_qty, (int)$product_id, $ip]);
     }
+
+    /**
+     * Clear all cart items for a given IP address
+     * 
+     * @param string $ip
+     * @return bool
+     */
+    public function clearCart($ip)
+    {
+        $sql = "DELETE FROM cart WHERE ip_add = ?";
+        return $this->execute($sql, [$ip]);
+    }
 }
